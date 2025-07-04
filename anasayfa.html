@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>sanaozel</title>
+    <style>
+        body {
+            background-image: url('arkaplan.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .siir {
+            width: 700px;
+            min-height: 900px;
+            color: black;
+            background-color: rgba(207, 207, 207, 0.6);
+            border-radius: 10px;
+            font-size: 34px;
+            margin: 40px auto;
+            padding: 20px 50px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .hediye-kutu {
+            background-color: #ffc0cb;
+            color: #800000;
+            font-size: 24px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            text-align: center;
+            cursor: pointer;
+            width: 300px;
+            margin: 20px auto;
+            transition: transform 0.2s ease;
+            padding: 20px;
+        }
+
+        .hediye-kutu:hover {
+            transform: scale(1.05);
+        }
+
+        .surpriz-kutu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background-color: #fff;
+            color: #e91e63;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            font-size: 26px;
+            font-weight: bold;
+            opacity: 0;
+            z-index: 999;
+            text-align: center;
+            animation: fadeInScale 0.8s ease forwards;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.7);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: particleAnimation var(--duration) ease-out forwards;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0.8) rotate(720deg);
+                opacity: 4;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="siir">
+    Sen benim zamanla yarışan kalp atışım, ellerine dokununca sessizleşen bütün gürültülerim.<br>
+    Bir bakışınla, şehirlerin ışıkları bile kıskanıyor gözlerinin parıltısını.<br>
+    Ne zaman yanımda olsan, dünya küçülüyor; sanki her şey bize yer açıyor, gökyüzü bile daha yakın oluyor.<br><br>
+
+    Bazen gülüşünde kayboluyorum, dönmek istemediğim bir yolculuğa çıkıyorum.<br>
+    Sen konuşurken, kelimeler bile sana yetişmeye çalışıyor.<br>
+    Sanki evrenin bütün güzellikleri gelip, omzuma konuyor senin adını duyduğumda.<br><br>
+
+    Ve inan, hiçbir şey tesadüf değil.<br>
+    Belki milyarlarca ihtimal arasından, sana rastlamak; en güzel mucize.<br>
+    Birlikte susmayı bile sevdim seninle, çünkü o sessizlik bile dolu dolu, çünkü sen varsın.<br><br>
+
+    Sana bakarken zaman duruyor, kalbim bir tek senin adınla atıyor.<br>
+    Ve tüm içtenliğimle söylüyorum: iyi ki varsın, iyi ki benim en güzel hikâyem oldun.
+</div>
+
+<div id="kutucuk" class="hediye-kutu">
+    🎁 Açmak için tıkla!
+</div>
+
+<div id="surprizMesaj" class="surpriz-kutu" style="display: none;">
+    Bu dünyada en değerli şey sensin...<br>
+    <strong>İyi ki doğdun aşkım! 💖</strong>
+</div>
+
+<script>
+    const kutucuk = document.getElementById("kutucuk");
+    const surprizMesaj = document.getElementById("surprizMesaj");
+    const emojis = ["🌸", "❤️", "🎉", "💖", "🌺"];
+
+    kutucuk.addEventListener("click", () => {
+        surprizMesaj.style.display = "block";
+        startCelebration();
+    });
+
+    function startCelebration() {
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                createParticle();
+            }, i * 100);
+        }
+    }
+
+    function createParticle() {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        particle.textContent = emoji;
+
+        // sürprizMesaj'ın ortasından başlat
+        const rect = surprizMesaj.getBoundingClientRect();
+        particle.style.left = rect.left + rect.width / 2 + "px";
+        particle.style.top = (rect.top + rect.height / 5) + "px";
+        particle.style.fontSize = (20 + Math.random() * 20) + "px";
+
+        // rasgele yönlerde dağılma için X ve Y
+        const x = (Math.random() - 0.5) * 1500 + "px";
+        const y = (Math.random() - 0.5) * 1000 + "px";
+
+        particle.style.setProperty('--x', x);
+        particle.style.setProperty('--y', y);
+        particle.style.setProperty('--duration', (2 + Math.random() * 4) + "s");
+
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 8000);
+    }
+</script>
+
+</body>
+</html>

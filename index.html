@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BÖCÜKK</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      background-color: rgb(154, 146, 147);
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .yazi {
+      color: black;
+      background-color: rgba(243, 235, 235, 0.8); /* şeffaf kutu */
+      font-size: 28px;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 150px;
+      text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 20px 25px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #evet, #hayir {
+      position: absolute;
+      padding: 25px 45px;
+      font-size: 27px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      color: white;
+      z-index: 10;
+      text-shadow: 1px 2px black;
+    }
+
+    #evet {
+      background-color: green;
+      top: 70%;
+      left: 40%;
+      transform: translate(-50%, -50%);
+    }
+
+    #hayir {
+      background-color: crimson;
+      top: 70%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+      transition: top 0.3s ease, left 0.3s ease;
+    }
+
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 30px;
+      animation: fly 2s linear forwards;
+    }
+
+    @keyframes fly {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-200px) scale(1.5);
+      }
+    }
+
+    .bocek {
+      position: absolute;
+      pointer-events: none;
+      animation: bocekYuru infinite linear;
+      color: black;
+    }
+
+    @keyframes bocekYuru {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(100px, 50px) rotate(360deg); }
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+    a:hover {
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="yazi">
+    Bu site, seni her şeyden çok seven sevgilin tarafından, sadece sana özel hazırlandı.<br><br>
+    Şimdi kalbimden gelen bir soruyu sormak istiyorum:<br><br>
+    <strong>"BENİ GERÇEKTEN SEVİYOR MUSUN?"</strong>
+    <strong><p>Hayırı da deneyebilirsin <i class="fa-regular fa-face-smile-beam"></i></p></strong>
+  </div>
+
+  <div id="evet"><a href="mesaj.php">EVET</a></div>
+  <div id="hayir">HAYIR</div>
+
+  <script>
+    const hayirDiv = document.getElementById("hayir");
+
+    hayirDiv.addEventListener("mouseenter", () => {
+      const maxX = window.innerWidth - hayirDiv.offsetWidth;
+      const maxY = window.innerHeight - hayirDiv.offsetHeight;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      hayirDiv.style.left = randomX + "px";
+      hayirDiv.style.top = randomY + "px";
+    });
+
+    hayirDiv.addEventListener("click", (e) => {
+      e.preventDefault(); // Tıklanamaz!
+    });
+
+    const evetDiv = document.getElementById("evet");
+    evetDiv.addEventListener("click", () => {
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = Math.random() * window.innerHeight + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 2000);
+      }
+    });
+
+    // Böcekleri oluştur
+    function bocekOlustur(adet) {
+      for (let i = 0; i < adet; i++) {
+        const bocek = document.createElement("i");
+        bocek.className = "fa-solid fa-spider bocek";
+        bocek.style.top = Math.random() * window.innerHeight + "px";
+        bocek.style.left = Math.random() * window.innerWidth + "px";
+        bocek.style.fontSize = (20 + Math.random() * 30) + "px"; // farklı boyut
+        bocek.style.animationDuration = (3 + Math.random() * 5) + "s"; // farklı hız
+        bocek.style.color = ["black",][Math.floor(Math.random() * 3)]; // rastgele renk
+        document.body.appendChild(bocek);
+      }
+    }
+
+    bocekOlustur(10);
+  </script>
+
+</body>
+</html>
